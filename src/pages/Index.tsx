@@ -1,16 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect, useMemo } from "react";
+import Navbar from "@/components/Navbar";
+import CategoryChips from "@/components/CategoryChips";
+import FeedCard from "@/components/FeedCard";
+import FeedSkeleton from "@/components/FeedSkeleton";
+import { articles, type Category } from "@/data/mockArticles";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [selectedCategory, setSelectedCategory] = useState<"All" | Category>("All");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  const filtered = useMemo(
+    () =>
+      selectedCategory === "All"
+        ? articles
+        : articles.filter((a) => a.category === selectedCategory),
+    [selectedCategory]
+  );
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <CategoryChips selected={selectedCategory} onSelect={setSelectedCategory} />
+
+      <main className="mx-auto max-w-3xl px-4 py-6" role="main">
+        <h1 className="sr-only">DakshinPost — South India News</h1>
+
+        {loading ? (
+          <FeedSkeleton />
+        ) : (
+          <div className="space-y-4">
+            {filtered.map((article) => (
+              <FeedCard key={article.id} article={article} />
+            ))}
+            {filtered.length === 0 && (
+              <p className="py-12 text-center text-muted-foreground">
+                No articles in this category yet.
+              </p>
+            )}
+          </div>
+        )}
+      </main>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
