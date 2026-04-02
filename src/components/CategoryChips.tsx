@@ -14,30 +14,43 @@ const CategoryChips = ({ selected, onSelect }: CategoryChipsProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="sticky top-16 z-40 glass border-b border-border/50">
+    <div className="sticky top-20 z-40 liquid-blur border-b border-white/10">
       <div
         ref={scrollRef}
-        className="mx-auto flex max-w-2xl gap-2 overflow-x-auto px-4 py-3 scrollbar-hide"
+        className="mx-auto flex max-w-[1600px] items-center gap-2 overflow-x-auto px-6 sm:px-12 lg:px-24 2xl:px-32 py-4 scrollbar-hide"
         role="tablist"
         aria-label="News categories"
       >
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            role="tab"
-            aria-selected={selected === cat}
-            onClick={() => onSelect(cat)}
-            className={cn(
-              "flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200",
-              selected === cat
-                ? "bg-primary text-primary-foreground shadow-md glow-sm"
-                : "bg-secondary/80 text-secondary-foreground hover:bg-secondary"
-            )}
-          >
-            {cat !== "All" && <span className="text-sm">{categoryEmojis[cat]}</span>}
-            {cat}
-          </button>
-        ))}
+        {categories.map((cat) => {
+          const isSelected = selected === cat;
+          return (
+            <button
+              key={cat}
+              role="tab"
+              aria-selected={isSelected}
+              onClick={() => onSelect(cat)}
+              className={cn(
+                "relative flex h-11 shrink-0 items-center justify-center rounded-full px-6 text-sm font-black transition-all duration-500",
+                "border border-white/10 active:scale-95 shadow-sm",
+                isSelected
+                  ? "bg-primary text-primary-foreground shadow-2xl premium-glow border-none"
+                  : "bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground hover:border-white/20"
+              )}
+            >
+              <div className="flex items-center gap-2 relative z-10">
+                {cat !== "All" && (
+                  <span className="text-xs transition-transform group-hover:scale-125">
+                    {categoryEmojis[cat]}
+                  </span>
+                )}
+                <span className="uppercase tracking-widest leading-none">{cat}</span>
+              </div>
+              {isSelected && (
+                <div className="absolute inset-x-4 -bottom-1 h-3 w-1 bg-primary/40 blur-md rounded-full mx-auto" />
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

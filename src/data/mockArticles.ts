@@ -19,12 +19,12 @@ export interface Article {
 }
 
 export const categoryColors: Record<Category, string> = {
-  Politics: "bg-purple-500",
-  Tech: "bg-blue-500",
-  Business: "bg-emerald-500",
-  Cinema: "bg-orange-500",
-  "Local News": "bg-red-500",
-  Sports: "bg-yellow-500",
+  Politics: "bg-[#550000]", // Burgundy
+  Tech: "bg-[#4a5568]", // Earthy Slate
+  Business: "bg-[#6b705c]", // Sage Green
+  Cinema: "bg-[#cb997e]", // Terra Cotta
+  "Local News": "bg-[#bc6c25]", // Earthy Orange/Clay
+  Sports: "bg-[#ddb892]", // Deep Beige
 };
 
 export const categoryEmojis: Record<Category, string> = {
@@ -46,6 +46,7 @@ export const articles: Article[] = [
     readTime: "45 sec",
     language: "en",
     trending: true,
+    thumbnail: "/thumbnails/ap_budget.png",
     publishedAt: "2026-04-02T08:00:00Z",
     content: {
       tldr: "AP government increases spending on infrastructure and welfare schemes. Amaravati capital city project gets renewed funding. Major push for irrigation and rural employment programs.",
@@ -68,6 +69,7 @@ export const articles: Article[] = [
     readTime: "30 sec",
     language: "en",
     trending: true,
+    thumbnail: "/thumbnails/rrr_sequel.png",
     publishedAt: "2026-04-01T14:00:00Z",
     content: {
       tldr: "SS Rajamouli officially confirms RRR 2 with both Ram Charan and Jr NTR returning. The film will have a pan-world release strategy with shooting starting October 2026.",
@@ -89,6 +91,7 @@ export const articles: Article[] = [
     category: "Local News",
     readTime: "40 sec",
     language: "en",
+    thumbnail: "/thumbnails/bengaluru_metro.png",
     publishedAt: "2026-04-01T10:00:00Z",
     content: {
       tldr: "Bengaluru Metro Phase 3 gets Union Cabinet approval. The 45 km ring line will connect Hebbal, Koramangala, JP Nagar, and Rajajinagar, expected to reduce traffic congestion by 30%.",
@@ -111,6 +114,7 @@ export const articles: Article[] = [
     readTime: "35 sec",
     language: "en",
     trending: true,
+    thumbnail: "/thumbnails/hyderabad_ai.png",
     publishedAt: "2026-04-02T06:00:00Z",
     content: {
       tldr: "Hyderabad's AI startup ecosystem has grown 340% in 3 years, overtaking Bengaluru in growth rate. T-Hub and IIIT Hyderabad driving innovation with government backing.",
