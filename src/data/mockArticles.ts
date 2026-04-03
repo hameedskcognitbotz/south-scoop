@@ -19,12 +19,12 @@ export interface Article {
 }
 
 export const categoryColors: Record<Category, string> = {
-  Politics: "bg-[#550000]", // Burgundy
-  Tech: "bg-[#4a5568]", // Earthy Slate
-  Business: "bg-[#6b705c]", // Sage Green
-  Cinema: "bg-[#cb997e]", // Terra Cotta
-  "Local News": "bg-[#bc6c25]", // Earthy Orange/Clay
-  Sports: "bg-[#ddb892]", // Deep Beige
+  Politics: "bg-primary text-primary-foreground",
+  Tech: "bg-foreground text-background",
+  Business: "bg-emerald-700 text-white dark:bg-emerald-600",
+  Cinema: "bg-amber-700 text-white dark:bg-amber-600",
+  "Local News": "bg-sky-700 text-white dark:bg-sky-600",
+  Sports: "bg-rose-700 text-white dark:bg-rose-600",
 };
 
 export const categoryEmojis: Record<Category, string> = {
@@ -46,7 +46,7 @@ export const articles: Article[] = [
     readTime: "45 sec",
     language: "en",
     trending: true,
-    thumbnail: "/thumbnails/ap_budget.png",
+    thumbnail: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-04-02T08:00:00Z",
     content: {
       tldr: "AP government increases spending on infrastructure and welfare schemes. Amaravati capital city project gets renewed funding. Major push for irrigation and rural employment programs.",
@@ -69,7 +69,7 @@ export const articles: Article[] = [
     readTime: "30 sec",
     language: "en",
     trending: true,
-    thumbnail: "/thumbnails/rrr_sequel.png",
+    thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-04-01T14:00:00Z",
     content: {
       tldr: "SS Rajamouli officially confirms RRR 2 with both Ram Charan and Jr NTR returning. The film will have a pan-world release strategy with shooting starting October 2026.",
@@ -91,7 +91,7 @@ export const articles: Article[] = [
     category: "Local News",
     readTime: "40 sec",
     language: "en",
-    thumbnail: "/thumbnails/bengaluru_metro.png",
+    thumbnail: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-04-01T10:00:00Z",
     content: {
       tldr: "Bengaluru Metro Phase 3 gets Union Cabinet approval. The 45 km ring line will connect Hebbal, Koramangala, JP Nagar, and Rajajinagar, expected to reduce traffic congestion by 30%.",
@@ -114,7 +114,7 @@ export const articles: Article[] = [
     readTime: "35 sec",
     language: "en",
     trending: true,
-    thumbnail: "/thumbnails/hyderabad_ai.png",
+    thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-04-02T06:00:00Z",
     content: {
       tldr: "Hyderabad's AI startup ecosystem has grown 340% in 3 years, overtaking Bengaluru in growth rate. T-Hub and IIIT Hyderabad driving innovation with government backing.",
@@ -137,6 +137,7 @@ export const articles: Article[] = [
     readTime: "35 sec",
     language: "en",
     publishedAt: "2026-03-31T12:00:00Z",
+    thumbnail: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=800&auto=format&fit=crop&q=80",
     content: {
       tldr: "Kerala debuts India's most sophisticated monsoon warning system using AI and IoT sensors. Can predict district-level flooding 72 hours ahead, a major upgrade after the devastating 2018 floods.",
       points: [
@@ -158,6 +159,7 @@ export const articles: Article[] = [
     readTime: "30 sec",
     language: "en",
     trending: true,
+    thumbnail: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-04-02T09:00:00Z",
     content: {
       tldr: "MS Dhoni leads CSK to IPL 2026 playoffs in what's widely expected to be his final season. Emotional scenes at Chepauk as fans celebrate the legendary captain's journey.",
@@ -179,6 +181,7 @@ export const articles: Article[] = [
     category: "Business",
     readTime: "40 sec",
     language: "en",
+    thumbnail: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-03-30T11:00:00Z",
     content: {
       tldr: "Tamil Nadu announces comprehensive EV policy targeting 50% electric vehicle adoption by 2030. Major incentives for manufacturers and buyers, with Chennai positioned as India's EV capital.",
@@ -200,6 +203,7 @@ export const articles: Article[] = [
     category: "Cinema",
     readTime: "30 sec",
     language: "en",
+    thumbnail: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-03-29T16:00:00Z",
     content: {
       tldr: "Telugu film industry's global box office collection crosses ₹10,000 crore for the fiscal year, a historic milestone. Pan-India appeal and growing international markets drive the surge.",
@@ -221,6 +225,7 @@ export const articles: Article[] = [
     category: "Business",
     readTime: "35 sec",
     language: "en",
+    thumbnail: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop&q=80",
     publishedAt: "2026-03-28T09:00:00Z",
     content: {
       tldr: "Karnataka government creates India's largest state-level startup fund at ₹5,000 crore, specifically targeting tier-2 cities. Aims to decongest Bengaluru while spreading tech prosperity.",
@@ -237,22 +242,23 @@ export const articles: Article[] = [
   {
     id: "10",
     slug: "vizag-it-corridor",
-    title: "Visakhapatnam IT Corridor Attracts TCS, Infosys with 25,000 Jobs",
-    summary: "AP's tech push pays off as major IT companies set up campuses in the port city.",
+    title: "Vizag IT Corridor Attracts 15 Global Tech Giants in Q1 2026",
+    summary: "Visakhapatnam's tech sector booms as companies seek alternatives to Hyderabad and Bengaluru.",
     category: "Tech",
-    readTime: "30 sec",
+    readTime: "35 sec",
     language: "en",
-    publishedAt: "2026-03-27T13:00:00Z",
+    thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop&q=80",
+    publishedAt: "2026-03-27T14:00:00Z",
     content: {
-      tldr: "Visakhapatnam's new IT corridor has attracted major companies including TCS, Infosys, and Wipro, promising 25,000 new tech jobs. AP government's incentive package and coastal lifestyle are key draws.",
+      tldr: "Vizag's IT corridor signs 15 major global tech companies in Q1 2026 alone. Lower costs and government incentives make it an attractive alternative to saturated tech hubs.",
       points: [
-        "TCS, Infosys, and Wipro setting up major campuses",
-        "25,000 new IT jobs expected over 3 years",
-        "₹2,000 crore government incentive package",
-        "Dedicated SEZ with plug-and-play infrastructure",
-        "Direct flights to Hyderabad, Bengaluru, and Chennai"
+        "15 global companies including TCS, Infosys, and Accenture expand to Vizag",
+        "IT exports from Vizag grow 250% in 2 years",
+        "Average office rent 60% lower than Hyderabad",
+        "AP government offers 10-year tax holidays for IT companies",
+        "New international airport connectivity boosting business travel"
       ],
-      body: "Visakhapatnam is rapidly emerging as Andhra Pradesh's IT powerhouse, with the newly developed IT corridor attracting major technology companies. TCS, Infosys, and Wipro have all announced plans to set up significant campuses in the port city, collectively promising over 25,000 new technology jobs.\n\nThe Andhra Pradesh government has offered a ₹2,000 crore incentive package including subsidized land, tax exemptions, and infrastructure support. The dedicated IT SEZ features plug-and-play office spaces, reliable power supply with 100% backup, and high-speed fiber connectivity.\n\nVizag's coastal lifestyle, relatively lower cost of living compared to Hyderabad and Bengaluru, and improving connectivity with direct flights to major tech hubs are cited as major attractions for both companies and employees.\n\nThe government is also investing in upskilling programs through partnerships with local engineering colleges and JNTU Vizag, ensuring a steady pipeline of trained technology professionals for the growing IT ecosystem."
+      body: "Visakhapatnam's burgeoning IT corridor has attracted 15 global technology companies in the first quarter of 2026 alone, cementing the coastal city's position as one of India's fastest-growing tech destinations.\n\nMajor IT services companies including TCS, Infosys, and Accenture have signed agreements to establish or expand operations in Vizag, drawn by office rents that are 60% lower than Hyderabad and generous government incentives.\n\nThe Andhra Pradesh government's IT policy offers 10-year tax holidays, subsidized land, and dedicated infrastructure for tech companies setting up in Vizag. The recently upgraded international airport has also improved connectivity.\n\nIT exports from Vizag have grown 250% over the past two years, with the city now contributing significantly to Andhra Pradesh's technology sector revenue. Industry experts predict Vizag could become a top-10 Indian tech city by 2028."
     }
   }
 ];
