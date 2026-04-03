@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Sun, Moon, Bookmark, User, Compass, Newspaper, LogOut, Bell, History } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Search, Sun, Moon, Bookmark, X } from "lucide-react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -19,16 +18,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { articles } from "@/data/mockArticles";
 import { useReadingList } from "@/hooks/use-reading-list";
 
@@ -45,7 +34,7 @@ const Navbar = () => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen((o) => !o);
       }
     };
     document.addEventListener("keydown", down);
@@ -55,154 +44,119 @@ const Navbar = () => {
   const toggleTheme = () => {
     const newDark = !isDark;
     setIsDark(newDark);
-    if (newDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", newDark);
   };
 
   return (
     <>
-      <nav className="sticky top-0 z-50 liquid-blur border-b border-border/10" role="navigation" aria-label="Main navigation">
-        <div className="mx-auto flex h-20 max-w-[1600px] px-6 sm:px-12 lg:px-24 2xl:px-32 items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group" aria-label="Open Vaartha home">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-              <span className="text-xl font-black italic">V</span>
+      <nav
+        className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div className="mx-auto flex h-14 max-w-6xl px-4 sm:px-6 items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 group" aria-label="Open Vaartha home">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <span className="text-sm font-extrabold">V</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tighter text-foreground leading-none">
-                Open <span className="text-primary">Vaartha</span>
-              </span>
-            </div>
+            <span className="text-base font-extrabold tracking-tight text-foreground hidden sm:inline">
+              Open Vaartha
+            </span>
           </Link>
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            {/* Search Trigger */}
+          {/* Actions */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setOpen(true)}
-              className="flex h-11 items-center gap-2 rounded-full border border-border px-4 text-muted-foreground transition-all hover:text-foreground hover:bg-secondary target-search"
+              className="flex h-9 items-center gap-2 rounded-lg px-3 text-muted-foreground transition-colors hover:text-foreground hover:bg-muted"
               aria-label="Search articles (Ctrl+K)"
             >
               <Search className="h-4 w-4" />
-              <span className="hidden md:inline text-xs font-medium border border-border rounded px-1.5 py-0.5 bg-background shadow-sm">⌘K</span>
+              <span className="hidden sm:inline text-xs text-muted-foreground border border-border rounded px-1.5 py-0.5">
+                ⌘K
+              </span>
             </button>
 
             <button
               onClick={toggleTheme}
-              className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-all hover:text-foreground hover:bg-secondary"
-              aria-label="Toggle Theme"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground hover:bg-muted"
+              aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="h-[20px] w-[20px]" /> : <Moon className="h-[20px] w-[20px]" />}
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
 
-            <div className="hidden sm:flex items-center gap-4 border-l border-border pl-4 mr-2">
-              {/* Reading List Drawer */}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <button className="relative flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-all hover:text-foreground hover:bg-secondary">
-                    <Bookmark className="h-[20px] w-[20px]" />
-                    {saved.length > 0 && (
-                      <span className="absolute top-2.5 right-2.5 h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-background shadow-sm" />
-                    )}
-                  </button>
-                </SheetTrigger>
-                <SheetContent className="w-full sm:max-w-md liquid-glass border-l border-white/20 p-0">
-                  <SheetHeader className="p-8 border-b border-white/10">
-                    <SheetTitle className="text-2xl font-black tracking-tighter">Your Reading List</SheetTitle>
-                    <SheetDescription className="text-muted-foreground font-medium">Articles you've saved for later.</SheetDescription>
-                  </SheetHeader>
-                  <div className="p-4 overflow-y-auto max-h-[calc(100vh-120px)]">
-                    {saved.length === 0 ? (
-                      <div className="py-24 text-center">
-                        <Bookmark className="h-16 w-16 mx-auto text-muted-foreground/10 mb-6" />
-                        <p className="text-base font-bold text-muted-foreground/60">No stories saved yet.</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-4">
-                        {saved.map((a) => (
-                          <Link key={a.id} to={`/article/${a.slug}`} className="flex gap-4 p-4 rounded-2xl hover:bg-white/10 transition-all border border-transparent hover:border-white/20 group">
-                            <div className="h-20 w-20 rounded-xl overflow-hidden shrink-0 border border-white/10 shadow-lg">
-                              <img src={a.thumbnail} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt="" />
-                            </div>
-                            <div className="space-y-2">
-                              <span className="text-[12px] font-bold uppercase tracking-widest text-primary">{a.category}</span>
-                              <h4 className="text-sm font-bold leading-tight line-clamp-2">{a.title}</h4>
-                              <p className="text-[11px] font-medium text-muted-foreground">{a.readTime} read</p>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-
-            {/* Profile Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="h-11 w-11 rounded-full overflow-hidden border border-white/20 hover:border-primary/50 transition-all focus:outline-none shadow-lg">
-                  <Avatar className="h-full w-full">
-                    <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100" />
-                    <AvatarFallback className="bg-secondary text-[11px] font-bold uppercase">VP</AvatarFallback>
-                  </Avatar>
+            {/* Reading List */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="relative flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground hover:bg-muted">
+                  <Bookmark className="h-4 w-4" />
+                  {saved.length > 0 && (
+                    <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary" />
+                  )}
                 </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64 mt-3 liquid-glass border border-white/20 p-2 shadow-2xl overflow-hidden" align="end">
-                <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-                <DropdownMenuLabel className="p-3 relative z-10">
-                  <div className="flex flex-col space-y-1.5">
-                    <p className="text-sm font-black tracking-tight">Vignesh Prabhu</p>
-                    <p className="text-[11px] font-medium text-muted-foreground">vignesh@openvaartha.com</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-white/10 my-1.5" />
-                <DropdownMenuGroup className="relative z-10">
-                  <DropdownMenuItem className="h-11 rounded-xl focus:bg-white/10 gap-3 cursor-pointer">
-                    <User className="h-4 w-4" /> <span className="font-bold">Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="h-11 rounded-xl focus:bg-white/10 gap-3 cursor-pointer">
-                    <History className="h-4 w-4" /> <span className="font-bold">Reading History</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="h-11 rounded-xl focus:bg-white/10 gap-3 cursor-pointer">
-                    <Bell className="h-4 w-4" /> <span className="font-bold">Intelligence Notifications</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator className="bg-white/10 my-1.5" />
-                <DropdownMenuItem className="h-11 rounded-xl focus:bg-destructive/20 focus:text-destructive gap-3 cursor-pointer text-destructive relative z-10">
-                  <LogOut className="h-4 w-4" /> <span className="font-black">Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </SheetTrigger>
+              <SheetContent className="w-full sm:max-w-md bg-background border-l border-border p-0">
+                <SheetHeader className="p-6 border-b border-border">
+                  <SheetTitle className="text-lg font-bold">Saved Articles</SheetTitle>
+                  <SheetDescription className="text-sm text-muted-foreground">
+                    {saved.length} article{saved.length !== 1 ? "s" : ""} saved
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="p-4 overflow-y-auto max-h-[calc(100vh-120px)]">
+                  {saved.length === 0 ? (
+                    <div className="py-16 text-center">
+                      <Bookmark className="h-10 w-10 mx-auto text-muted-foreground/20 mb-4" />
+                      <p className="text-sm text-muted-foreground">No articles saved yet</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      {saved.map((a) => (
+                        <Link
+                          key={a.id}
+                          to={`/article/${a.slug}`}
+                          className="flex gap-3 p-3 rounded-lg hover:bg-muted transition-colors group"
+                        >
+                          {a.thumbnail && (
+                            <div className="h-14 w-14 rounded-md overflow-hidden shrink-0 bg-muted">
+                              <img src={a.thumbnail} className="h-full w-full object-cover" alt="" loading="lazy" />
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <span className="section-label text-[10px]">{a.category}</span>
+                            <h4 className="text-sm font-semibold leading-tight line-clamp-2 mt-0.5">{a.title}</h4>
+                            <p className="text-xs text-muted-foreground mt-1">{a.readTime}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </nav>
 
-      {/* ⌘K Command Dialog */}
+      {/* ⌘K Search */}
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search stories, categories, intelligence briefings..." />
-        <CommandList className="scrollbar-hide">
-          <CommandEmpty>No results found for your query.</CommandEmpty>
-          <CommandGroup heading="Curated Categories">
-            <CommandItem disabled className="opacity-50">
-              <Compass className="mr-2 h-4 w-4" />
-              <span>Explore Regional News</span>
-            </CommandItem>
-            {["Politics", "Tech", "Business", "Cinema"].map(c => (
+        <CommandInput placeholder="Search articles..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Categories">
+            {["Politics", "Tech", "Business", "Cinema", "Sports", "Local News"].map((c) => (
               <CommandItem key={c} onSelect={() => { setOpen(false); navigate(`/?category=${c}`); }}>
-                <Newspaper className="mr-2 h-4 w-4" />
-                <span>{c}</span>
+                {c}
               </CommandItem>
             ))}
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Latest Stories">
-            {articles.slice(0, 5).map(a => (
+          <CommandGroup heading="Recent Stories">
+            {articles.slice(0, 6).map((a) => (
               <CommandItem key={a.id} onSelect={() => { setOpen(false); navigate(`/article/${a.slug}`); }}>
-                <div className="flex flex-col">
-                  <span className="font-bold">{a.title}</span>
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{a.category} • {a.readTime}</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-medium text-sm">{a.title}</span>
+                  <span className="text-xs text-muted-foreground">{a.category} · {a.readTime}</span>
                 </div>
               </CommandItem>
             ))}
